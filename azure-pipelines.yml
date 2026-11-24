@@ -35,3 +35,13 @@ steps:
     pip install pytest pytest-azurepipelines
     pytest
   displayName: 'pytest'
+
+- script: |
+    python -m pip install pytest pytest-cov
+    python -m pytest --cov=. --cov-report=xml:coverage.xml
+  displayName: Run Python tests with coverage
+
+- task: PublishCodeCoverageResults@2
+  inputs:
+    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.xml"
+    failIfCoverageEmpty: true
